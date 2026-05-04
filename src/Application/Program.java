@@ -33,27 +33,55 @@ public class Program {
         System.out.println("\nAccount data:");
         System.out.println(account);
 
-        System.out.print("\nEnter a deposit value: ");
-        double deposit = scan.nextDouble();
+        int option;
 
-        if (account.deposit(deposit)) {
-            System.out.println("Updated account data:");
-        } else {
-            System.out.println("Invalid deposit!");
-        }
-        System.out.println(account);
+        do {
+            System.out.println("\nChoose an operation:");
+            System.out.println("1 - Deposit");
+            System.out.println("2 - Withdraw");
+            System.out.println("3 - Show account data");
+            System.out.println("4 - Exit");
+            System.out.print("Option: ");
 
-        System.out.println("\nUpdated account data: ");
-        System.out.println(account);
+            option = scan.nextInt();
 
-        System.out.print("\nEnter a withdraw value: ");
-        double withdraw = scan.nextDouble();
-        if (account.withdraw(withdraw)) {
-            System.out.println("Updated account data:");
-        } else {
-            System.out.println("Invalid withdraw!");
-        }
-        System.out.println(account);
-        scan.close();
+            switch (option) {
+
+                case 1:
+                    System.out.print("Enter a deposit value: ");
+                    double deposit = scan.nextDouble();
+
+                    if (account.deposit(deposit)) {
+                        System.out.println("Deposit successful!");
+                    } else {
+                        System.out.println("Invalid deposit!");
+                    }
+                    break;
+
+                case 2:
+                    System.out.print("Enter a withdraw value: ");
+                    double withdraw = scan.nextDouble();
+
+                    if (account.withdraw(withdraw)) {
+                        System.out.println("Withdraw successful!");
+                    } else {
+                        System.out.println("Invalid withdraw!");
+                    }
+                    break;
+
+                case 3:
+                    System.out.println("\nAccount data:");
+                    System.out.println(account);
+                    break;
+
+                case 4:
+                    System.out.println("Exiting...");
+                    break;
+
+                default:
+                    System.out.println("Invalid option!");
+            }
+
+        } while (option != 4);
     }
 }
