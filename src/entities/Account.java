@@ -4,7 +4,7 @@ public class Account {
 
     private static final double WITHDRAW_FEE = 5.0;
 
-    private final int accountNumber;
+    private int accountNumber;
     private String holder;
     private double balance;
 
@@ -22,7 +22,6 @@ public class Account {
         return accountNumber;
     }
 
-
     public String getHolder() {
         return holder;
     }
@@ -36,17 +35,13 @@ public class Account {
     }
 
     public boolean deposit(double amount) {
-        if (amount <= 0) {
-            return false;
-        }
+        if (amount <= 0) return false;
         balance += amount;
         return true;
     }
 
     public boolean withdraw(double amount) {
-        if (amount <= 0 || amount + WITHDRAW_FEE > balance) {
-            return false;
-        }
+        if (amount <= 0 || amount + WITHDRAW_FEE > balance) return false;
         balance -= amount + WITHDRAW_FEE;
         return true;
     }

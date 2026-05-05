@@ -12,59 +12,91 @@ public class Program {
         Scanner scan = new Scanner(System.in);
         AccountService service = new AccountService();
 
-        System.out.print("Enter account number: ");
-        int number = scan.nextInt();
-
-        System.out.print("Enter account holder: ");
-        scan.nextLine();
-        String holder = scan.nextLine();
-
-        System.out.print("Is there an initial deposit (y/n)? ");
-        char response = scan.next().charAt(0);
-
-        Account account;
-
-        if (response == 'y' || response == 'Y') {
-            System.out.print("Enter initial deposit value: ");
-            double initialDeposit = scan.nextDouble();
-            account = new Account(number, holder, initialDeposit);
-        } else {
-            account = new Account(number, holder);
-        }
-
-        System.out.println("\nAccount data:");
-        service.showAccountData(account);
-
         int option;
 
         do {
-            System.out.println("\nChoose an operation:");
-            System.out.println("1 - Deposit");
-            System.out.println("2 - Withdraw");
-            System.out.println("3 - Show account data");
-            System.out.println("4 - Exit");
+            System.out.println("\nMENU:");
+            System.out.println("1 - Create account");
+            System.out.println("2 - Deposit");
+            System.out.println("3 - Withdraw");
+            System.out.println("4 - Show account");
+            System.out.println("5 - Exit");
             System.out.print("Option: ");
 
             option = scan.nextInt();
 
             switch (option) {
+
                 case 1:
-                    System.out.print("Enter a deposit value: ");
-                    double deposit = scan.nextDouble();
-                    service.deposit(account, deposit);
+                    System.out.print("Enter account number: ");
+                    int number = scan.nextInt();
+
+                    System.out.print("Enter account holder: ");
+                    scan.nextLine();
+                    String holder = scan.nextLine();
+
+                    System.out.print("Initial deposit (y/n)? ");
+                    char resp = scan.next().charAt(0);
+
+                    boolean created;
+
+                    if (resp == 'y' || resp == 'Y') {
+                        System.out.print("Initial deposit value: ");
+                        double initial = scan.nextDouble();
+                        created = service.createAccount(number, holder, initial);
+                    } else {
+                        created = service.createAccount(number, holder, null);
+                    }
+
+                    if (created) {
+                        System.out.println("Account created!");
+                    } else {
+                        System.out.println("Account already exists!");
+                    }
                     break;
 
                 case 2:
-                    System.out.print("Enter a withdraw value: ");
-                    double withdraw = scan.nextDouble();
-                    service.withdraw(account, withdraw);
+                    System.out.print("Enter account number: ");
+                    int depNum = scan.nextInt();
+
+                    System.out.print("Deposit value: ");
+                    double dep = scan.nextDouble();
+
+                    if (service.deposit(depNum, dep)) {
+                        System.out.println("Deposit successful!");
+                    } else {
+                        System.out.println("Invalid deposit or account not found!");
+                    }
                     break;
 
                 case 3:
-                    service.showAccountData(account);
+                    System.out.print("Enter account number: ");
+                    int witNum = scan.nextInt();
+
+                    System.out.print("Withdraw value: ");
+                    double wit = scan.nextDouble();
+
+                    if (service.withdraw(witNum, wit)) {
+                        System.out.println("Withdraw successful!");
+                    } else {
+                        System.out.println("Invalid withdraw or account not found!");
+                    }
                     break;
 
                 case 4:
+                    System.out.print("Enter account number: ");
+                    int showNum = scan.nextInt();
+
+                    Account acc = service.getAccount(showNum);
+
+                    if (acc != null) {
+                        System.out.println(acc);
+                    } else {
+                        System.out.println("Account not found!");
+                    }
+                    break;
+
+                case 5:
                     System.out.println("Exiting...");
                     break;
 
@@ -72,7 +104,7 @@ public class Program {
                     System.out.println("Invalid option!");
             }
 
-        } while (option != 4);
+        } while (option != 5);
 
         scan.close();
     }
