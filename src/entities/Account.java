@@ -4,7 +4,7 @@ public class Account {
 
     private static final double WITHDRAW_FEE = 5.0;
 
-    private int accountNumber;
+    private final int accountNumber;
     private String holder;
     private double balance;
 
