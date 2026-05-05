@@ -1,6 +1,7 @@
 package application;
 
 import entities.Account;
+import service.AccountService;
 
 import java.util.Scanner;
 
@@ -9,6 +10,7 @@ public class Program {
     public static void main(String[] args) {
 
         Scanner scan = new Scanner(System.in);
+        AccountService service = new AccountService();
 
         System.out.print("Enter account number: ");
         int number = scan.nextInt();
@@ -17,7 +19,7 @@ public class Program {
         scan.nextLine();
         String holder = scan.nextLine();
 
-        System.out.print("Is there an initial deposit (y/n) ? ");
+        System.out.print("Is there an initial deposit (y/n)? ");
         char response = scan.next().charAt(0);
 
         Account account;
@@ -31,7 +33,7 @@ public class Program {
         }
 
         System.out.println("\nAccount data:");
-        System.out.println(account);
+        service.showAccountData(account);
 
         int option;
 
@@ -46,32 +48,20 @@ public class Program {
             option = scan.nextInt();
 
             switch (option) {
-
                 case 1:
                     System.out.print("Enter a deposit value: ");
                     double deposit = scan.nextDouble();
-
-                    if (account.deposit(deposit)) {
-                        System.out.println("Deposit successful!");
-                    } else {
-                        System.out.println("Invalid deposit!");
-                    }
+                    service.deposit(account, deposit);
                     break;
 
                 case 2:
                     System.out.print("Enter a withdraw value: ");
                     double withdraw = scan.nextDouble();
-
-                    if (account.withdraw(withdraw)) {
-                        System.out.println("Withdraw successful!");
-                    } else {
-                        System.out.println("Invalid withdraw!");
-                    }
+                    service.withdraw(account, withdraw);
                     break;
 
                 case 3:
-                    System.out.println("\nAccount data:");
-                    System.out.println(account);
+                    service.showAccountData(account);
                     break;
 
                 case 4:
@@ -83,5 +73,7 @@ public class Program {
             }
 
         } while (option != 4);
+
+        scan.close();
     }
 }
